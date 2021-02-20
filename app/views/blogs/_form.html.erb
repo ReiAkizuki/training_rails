@@ -1,0 +1,11 @@
+<ul>
+  <% @blog.errors.full_messages.each do |message| %>
+    <li><%= message %></li>
+  <% end %>
+</ul>
+
+<%= form_with model: blog, local: true do |f| %>
+  <%= f.text_field 'title' %><br>
+  <%= f.text_field 'text' %><br>
+  <%= f.submit %><br>
+<% end %>

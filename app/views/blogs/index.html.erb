@@ -1,0 +1,6 @@
+<h1>Blogs#index</h1>
+<% @blogs.each do |blog| %>
+  <%= link_to blog.title, blog_path(blog) %><br>
+<% end %>
+
+<%= link_to "作成", new_blog_path %>
