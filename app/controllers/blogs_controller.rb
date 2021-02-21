@@ -18,10 +18,14 @@ class BlogsController < ApplicationController
 
   def create
     @blog = current_user.blogs.new(blog_params)
-    if @blog.save
-      redirect_to :root, notice: 'Blog was successfully created.' and return
-    else
-      render :new, errors: @blog.errors and return
+    respond_to do |format|
+      if @blog.save
+        format.html { redirect_to :index, notice: 'Blog was successfully created.' and return }
+        format.json { render json: @blog, status: :ok, notice: 'Blog was successfully created.' and return }
+      else
+        format.html { render :new and return }
+        format.json { render json: @blog.errors, status: :unprocessable_entity and return }
+      end
     end
   end
 
@@ -42,9 +46,11 @@ class BlogsController < ApplicationController
       render 'errors/404', status: :not_found
     end
     if @blog.update(blog_params)
-      redirect_to @blog, notice: 'Blog was successfully updated.' and return
+        format.html { redirect_to :index, notice: 'Blog was successfully updated.' and return }
+        format.json { render json: @blog, status: :ok, notice: 'Blog was successfully updated.' and return }
     else
-      render :edit, errors: @blog.errors and return
+        format.html { render :edit and return }
+        format.json { render json: @blog.errors, status: :unprocessable_entity and return }
     end
   end
 
