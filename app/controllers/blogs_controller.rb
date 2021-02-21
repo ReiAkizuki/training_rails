@@ -19,7 +19,7 @@ class BlogsController < ApplicationController
   def create
     @blog = current_user.blogs.new(blog_params)
     if @blog.save
-      redirect_to :root, status: :ok, notice: 'Blog was successfully created.' and return
+      redirect_to :root, notice: 'Blog was successfully created.' and return
     else
       render :new, errors: @blog.errors and return
     end
@@ -42,7 +42,7 @@ class BlogsController < ApplicationController
       render 'errors/404', status: :not_found
     end
     if @blog.update(blog_params)
-      redirect_to @blog, status: :ok, notice: 'Blog was successfully updated.' and return
+      redirect_to @blog, notice: 'Blog was successfully updated.' and return
     else
       render :edit, errors: @blog.errors and return
     end
