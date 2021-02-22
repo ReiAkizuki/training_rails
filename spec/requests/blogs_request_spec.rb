@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe "BlogsController", type: :request do
+RSpec.describe 'BlogsController', type: :request do
   let(:user1) { create(:user) }
   let(:user2) { create(:user) }
   before do

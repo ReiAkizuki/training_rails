@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Blog < ApplicationRecord
   validates :title, length: { minimum: 2 }
   validates :text,  length: { minimum: 2 }

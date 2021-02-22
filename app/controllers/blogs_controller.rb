@@ -1,19 +1,16 @@
+# frozen_string_literal: true
+
 class BlogsController < ApplicationController
+  before_action :fetch_current_blog, only: %i[show edit update destroy]
+
   def index
     @blogs = current_user.blogs.all
   end
 
-  def show
-    id = params[:id]
-    begin
-      @blog = current_user.blogs.find(id)
-    rescue
-      render 'errors/404', status: :not_found and return
-    end
-  end
+  def show; end
 
   def new
-    @blog = current_user.blogs.new()
+    @blog = current_user.blogs.new
   end
 
   def create
@@ -29,42 +26,29 @@ class BlogsController < ApplicationController
     end
   end
 
-  def edit
-    id = params[:id]
-    begin
-      @blog = current_user.blogs.find(id)
-    rescue
-      render 'errors/404', status: :not_found and return
-    end
-  end
+  def edit; end
 
   def update
-    id = params[:id]
-    begin
-      @blog = current_user.blogs.find(id)
-    rescue
-      render 'errors/404', status: :not_found
-    end
-    if @blog.update(blog_params)
+    respond_to do |format|
+      if @blog.update(blog_params)
         format.html { redirect_to :index, notice: 'Blog was successfully updated.' and return }
         format.json { render json: @blog, status: :ok, notice: 'Blog was successfully updated.' and return }
-    else
+      else
         format.html { render :edit and return }
         format.json { render json: @blog.errors, status: :unprocessable_entity and return }
+      end
     end
   end
 
   def destroy
-    id = params[:id]
-    begin
-      @blog = current_user.blogs.find(id)
-    rescue
-      render 'errors  /404', status: :not_found
-    end
     @blog.destroy
   end
 
   private
+
+  def fetch_current_blog
+    @blog = current_user.blogs.find(params[:id])
+  end
 
   def blog_params
     params.require(:blog).permit(:title, :text)

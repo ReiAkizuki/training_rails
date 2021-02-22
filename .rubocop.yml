@@ -1,0 +1,29 @@
+require: rubocop-rails
+Rails:
+  Enabled: true
+
+AllCops:
+  NewCops: enable
+
+# Use only ascii symbols in comments.
+AsciiComments:
+  Enabled: false
+
+# Missing top-level module documentation comment.
+Documentation:
+  Enabled: false
+
+# Please use Rails.root.join('path', 'to') instead.
+FilePath:
+  EnforcedStyle: arguments
+
+# rspecのファイルではブロックあたりの行数は監視しない
+BlockLength:
+  Exclude:
+    - 'spec/**/*'
+    - 'config/environments/*'
+
+# コメント行の関係
+LineLength:
+  Exclude:
+    - 'config/initializers/devise.rb'
