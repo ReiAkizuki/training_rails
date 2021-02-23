@@ -69,4 +69,13 @@ RSpec.configure do |config|
 
   # devise
   config.include Devise::Test::IntegrationHelpers, type: :request
+
+  # 初期化
+  config.before(:suite) do
+    DatabaseRewinder.clean_all
+  end
+
+  config.after(:each) do
+    DatabaseRewinder.clean
+  end
 end

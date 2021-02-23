@@ -93,13 +93,4 @@ RSpec.configure do |config|
   #   # test failures related to randomization by passing the same `--seed` value
   #   # as the one that triggered the failure.
   #   Kernel.srand config.seed
-
-  # 初期化
-  config.before(:suite) do
-    DatabaseRewinder.clean_all
-  end
-
-  config.after(:each) do
-    DatabaseRewinder.clean
-  end
 end
