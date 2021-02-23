@@ -13,10 +13,10 @@ RSpec.feature 'blogs/' do
     click_on 'Log in'
   end
 
-  let(:blog1) { create(:blog, user: user1) }
-  let(:blog2) { create(:blog, user: user1) }
-  let(:blog3) { create(:blog, user: user2) }
-  let(:blog4) { create(:blog, user: user2) }
+  let!(:blog1) { create(:blog, user: user1) }
+  let!(:blog2) { create(:blog, user: user1) }
+  let!(:blog3) { create(:blog, user: user2) }
+  let!(:blog4) { create(:blog, user: user2) }
 
   feature 'ブログ一覧' do
     before do
