@@ -17,7 +17,7 @@ class BlogsController < ApplicationController
     @blog = current_user.blogs.new(blog_params)
     respond_to do |format|
       if @blog.save
-        format.html { redirect_to blogs_path, notice: 'Blog was successfully created.' and return }
+        format.html { redirect_to blog_path(@blog), notice: 'Blog was successfully created.' and return }
         format.json { render json: @blog, status: :ok, notice: 'Blog was successfully created.' and return }
       else
         format.html { render :new and return }

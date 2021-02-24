@@ -65,8 +65,9 @@ RSpec.feature 'blogs/' do
         text = 'cerated text'
         visit blog_path(blog1)
         click_on '編集'
-        fill_in 'title', with: title
-        fill_in 'text',  with: text
+        fill_in 'Title', with: title
+        fill_in 'Text',  with: text
+        click_on 'Update Blog'
         expect(page).to have_content title
         expect(page).to have_content text
       end
@@ -92,10 +93,9 @@ RSpec.feature 'blogs/' do
         text = 'cerated text'
         visit blogs_path
         click_on '作成'
-        fill_in 'title', with: title
-        fill_in 'text',  with: text
-        expect(page).to have_link title, **{ href: text }
-        click_on title
+        fill_in 'Title', with: title
+        fill_in 'Text',  with: text
+        click_on 'Create Blog'
         expect(page).to have_content title
         expect(page).to have_content text
       end
