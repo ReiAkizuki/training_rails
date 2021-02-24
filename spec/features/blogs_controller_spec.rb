@@ -57,4 +57,56 @@ RSpec.feature 'blogs/' do
     context 'ログインユーザでない場合' do
     end
   end
+
+  feature 'ブログ編集' do
+    context 'ログインユーザの場合' do
+      it '自分に紐づくBlogが編集できること' do
+        title = 'cerated title'
+        text = 'cerated text'
+        visit blog_path(blog1)
+        click_on '編集'
+        fill_in 'title', with: title
+        fill_in 'text',  with: text
+        expect(page).to have_content title
+        expect(page).to have_content text
+      end
+      it '自分に紐づかないBlogが表示されないこと' do
+        visit edit_blog_path(blog3)
+        expect(page).to have_content 'The page you were looking for doesn\'t exist (404)'
+      end
+    end
+
+    context 'ログインユーザでない場合' do
+      it 'ブログが編集できないこと' do
+        click_on 'ログアウト'
+        visit edit_blog_path(blog1)
+        expect(page).to have_content 'You need to sign in or sign up before continuing.'
+      end
+    end
+  end
+
+  feature 'ブログ作成' do
+    context 'ログインユーザの場合' do
+      it '自分に紐づくBlogが編集できること' do
+        title = 'cerated title'
+        text = 'cerated text'
+        visit blogs_path
+        click_on '作成'
+        fill_in 'title', with: title
+        fill_in 'text',  with: text
+        expect(page).to have_link title, **{ href: text }
+        click_on title
+        expect(page).to have_content title
+        expect(page).to have_content text
+      end
+    end
+
+    context 'ログインユーザでない場合' do
+      it 'ブログが編集できないこと' do
+        click_on 'ログアウト'
+        visit new_blog_path
+        expect(page).to have_content 'You need to sign in or sign up before continuing.'
+      end
+    end
+  end
 end
