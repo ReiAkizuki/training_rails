@@ -1,0 +1,23 @@
+#!/bin/bash
+
+bundle exec rubocop
+cop=$?
+
+bundle exec rspec spec
+pec=$?
+
+branch_name="$(git symbolic-ref HEAD 2>/dev/null)" ||
+branch_name="(unnamed branch)"     # detached HEAD
+
+branch_name=${branch_name##refs/heads/}
+
+echo "current branch: "$branch_name
+
+echo "commitしますか？[y/N]"
+exec < /dev/tty
+read yn
+if [[ "$yn" =~ ^[yY]$ ]]; then
+    exit 0
+fi
+
+exit 1
