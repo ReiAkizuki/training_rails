@@ -17,11 +17,11 @@ class BlogsController < ApplicationController
     @blog = current_user.blogs.new(blog_params)
     respond_to do |format|
       if @blog.save
-        format.html { redirect_to blog_path(@blog), notice: 'Blog was successfully created.' and return }
-        format.json { render json: @blog, status: :ok, notice: 'Blog was successfully created.' and return }
+        format.html { redirect_to blog_path(@blog), notice: 'Blog was successfully created.' }
+        format.json { render json: @blog, status: :ok, notice: 'Blog was successfully created.' }
       else
-        format.html { render :new and return }
-        format.json { render json: @blog.errors, status: :unprocessable_entity and return }
+        format.html { render :new }
+        format.json { render json: @blog.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -31,11 +31,11 @@ class BlogsController < ApplicationController
   def update
     respond_to do |format|
       if @blog.update(blog_params)
-        format.html { redirect_to blog_path(@blog), notice: 'Blog was successfully updated.' and return }
-        format.json { render json: @blog, status: :ok, notice: 'Blog was successfully updated.' and return }
+        format.html { redirect_to blog_path(@blog), notice: 'Blog was successfully updated.' }
+        format.json { render json: @blog, status: :ok, notice: 'Blog was successfully updated.' }
       else
-        format.html { render :edit and return }
-        format.json { render json: @blog.errors, status: :unprocessable_entity and return }
+        format.html { render :edit }
+        format.json { render json: @blog.errors, status: :unprocessable_entity }
       end
     end
   end

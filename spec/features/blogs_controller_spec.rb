@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.feature 'blogs/' do
@@ -38,23 +40,54 @@ RSpec.feature 'blogs/' do
 
   feature 'ブログ詳細' do
     context 'ログインユーザの場合' do
-      it '自分に紐づくBlogが表示されること' do
+      it '自分に紐づくBlogが表示され、編集ボタンが表示されること' do
         visit blog_path(blog1)
         expect(page).to have_content blog1.title
         expect(page).to have_content blog1.text
+        expect(page).to have_content '編集'
         visit blog_path(blog2)
         expect(page).to have_content blog2.title
         expect(page).to have_content blog2.text
+        expect(page).to have_content '編集'
       end
-      it '自分に紐づかないBlogが表示されないこと' do
+      it '自分に紐づかないBlogが表示され、編集ボタンが表示されないこと' do
         visit blog_path(blog3)
-        expect(page).to have_content 'The page you were looking for doesn\'t exist (404)'
+        expect(page).to     have_content blog3.title
+        expect(page).to     have_content blog3.text
+        expect(page).not_to have_content '編集'
         visit blog_path(blog4)
-        expect(page).to have_content 'The page you were looking for doesn\'t exist (404)'
+        expect(page).to     have_content blog4.title
+        expect(page).to     have_content blog4.text
+        expect(page).not_to have_content '編集'
       end
     end
 
     context 'ログインユーザでない場合' do
+    end
+  end
+
+  feature 'ブログ作成' do
+    context 'ログインユーザの場合' do
+      it '自分に紐づくBlogが作成できること' do
+        title = 'cerated title'
+        text = 'cerated text'
+        visit blogs_path
+        click_on '作成'
+        fill_in 'Title', with: title
+        fill_in 'Text',  with: text
+        click_on 'Create Blog'
+        expect(page).to have_content 'Blog was successfully created.'
+        expect(page).to have_content title
+        expect(page).to have_content text
+      end
+    end
+
+    context 'ログインユーザでない場合' do
+      it 'ブログが編集できないこと' do
+        click_on 'ログアウト'
+        visit new_blog_path
+        expect(page).to have_content 'You need to sign in or sign up before continuing.'
+      end
     end
   end
 
@@ -68,10 +101,11 @@ RSpec.feature 'blogs/' do
         fill_in 'Title', with: title
         fill_in 'Text',  with: text
         click_on 'Update Blog'
+        expect(page).to have_content 'Blog was successfully updated.'
         expect(page).to have_content title
         expect(page).to have_content text
       end
-      it '自分に紐づかないBlogが表示されないこと' do
+      it '自分に紐づかないBlogが編集できないこと' do
         visit edit_blog_path(blog3)
         expect(page).to have_content 'The page you were looking for doesn\'t exist (404)'
       end
@@ -81,30 +115,6 @@ RSpec.feature 'blogs/' do
       it 'ブログが編集できないこと' do
         click_on 'ログアウト'
         visit edit_blog_path(blog1)
-        expect(page).to have_content 'You need to sign in or sign up before continuing.'
-      end
-    end
-  end
-
-  feature 'ブログ作成' do
-    context 'ログインユーザの場合' do
-      it '自分に紐づくBlogが編集できること' do
-        title = 'cerated title'
-        text = 'cerated text'
-        visit blogs_path
-        click_on '作成'
-        fill_in 'Title', with: title
-        fill_in 'Text',  with: text
-        click_on 'Create Blog'
-        expect(page).to have_content title
-        expect(page).to have_content text
-      end
-    end
-
-    context 'ログインユーザでない場合' do
-      it 'ブログが編集できないこと' do
-        click_on 'ログアウト'
-        visit new_blog_path
         expect(page).to have_content 'You need to sign in or sign up before continuing.'
       end
     end

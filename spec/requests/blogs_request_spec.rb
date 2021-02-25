@@ -5,14 +5,15 @@ require 'rails_helper'
 RSpec.describe 'BlogsController', type: :request do
   let(:user1) { create(:user) }
   let(:user2) { create(:user) }
-  before do
-    sign_in user1
-  end
 
   let(:blog1) { create(:blog, user: user1) }
   let(:blog2) { create(:blog, user: user1) }
   let(:blog3) { create(:blog, user: user2) }
   let(:blog4) { create(:blog, user: user2) }
+
+  before do
+    sign_in user1
+  end
 
   describe 'GET Blogs#index' do
     before do
