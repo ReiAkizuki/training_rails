@@ -20,9 +20,10 @@ RSpec.feature '/' do
   let!(:blog3) { create(:blog, user: user2) }
   let!(:blog4) { create(:blog, user: user2) }
 
-  feature 'ブログ一覧' do
+  feature 'HOME' do
     context 'ログインユーザの場合' do
       it '自分に紐づくBlogだけが表示されること' do
+        visit root_path
         expect(page).to     have_link blog1.title, **{ href: blog_path(blog1) }
         expect(page).to     have_link blog2.title, **{ href: blog_path(blog2) }
         expect(page).not_to have_link blog3.title, **{ href: blog_path(blog3) }
@@ -31,7 +32,9 @@ RSpec.feature '/' do
     end
 
     context 'ログインユーザでない場合' do
-      click_on 'ログアウト'
+      before do
+        click_on 'ログアウト'
+      end
       it 'ログインが求められること' do
         visit root_path
         expect(page).to have_content 'You need to sign in or sign up before continuing.'

@@ -1,13 +1,16 @@
 # frozen_string_literal: true
 
 class BlogsController < ApplicationController
-  before_action :fetch_current_blog, only: %i[show edit update destroy]
+  before_action :authenticate_user!, only: %i[index new create edit update destroy]
+  before_action :fetch_current_blog, only: %i[edit update destroy]
 
   def index
     @blogs = current_user.blogs.all
   end
 
-  def show; end
+  def show
+    @blog = Blog.find(params[:id])
+  end
 
   def new
     @blog = current_user.blogs.new

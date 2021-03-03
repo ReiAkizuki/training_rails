@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
 class HomeController < ApplicationController
-  def index; end
+  before_action :authenticate_user!, only: %i[index]
+
+  def index
+    @blogs = current_user.blogs.all
+  end
 end
